@@ -4,8 +4,8 @@ services:
     sample_api:
         container_name: sample_api
         build:
-            context: .
-            dockerfile: resources/docker/laravel/sail/runtimes/8.0/Dockerfile
+            context: ./vendor/laravel/sail/runtimes/8.0
+            dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
                 XDEBUG: '${APP_DEBUG}'
@@ -24,26 +24,23 @@ services:
         hostname: sample_api
         depends_on:
             - sample_mysql
-        secrets:
-            - DB_PASSWORD
+
     sample_mysql:
         container_name: sample_mysql
         image: 'mysql:8.0'
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
         environment:
-            MYSQL_ROOT_PASSWORD_FILE: '/run/secrets/DB_PASSWORD'
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
             MYSQL_DATABASE: '${DB_DATABASE}'
             MYSQL_USER: '${DB_USERNAME}'
-            MYSQL_PASSWORD_FILE: '/run/secrets/DB_PASSWORD'
+            MYSQL_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
         volumes:
             - 'sailmysql:/var/lib/mysql'
         networks:
             - sample_network
         hostname: sample_mysql
-        secrets:
-            - DB_PASSWORD
 
 networks:
     sample_network:

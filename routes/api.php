@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,9 +12,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('health', 'HealthController@health');
-Route::post('/auth/login', 'AuthController@login');
+Route::resource('customer', 'CustomerController');
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::resource('criar-material-indireto', 'CriarMaterialIndiretoController')->only(['index','store']);
-    Route::resource('material', 'CriarMaterialIndiretoController')->only(['index','store']);
-});
