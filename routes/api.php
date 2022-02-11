@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\V1\CustomerController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -12,5 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('health', 'HealthController@health');
-Route::resource('customer', 'CustomerController');
+
+Route::group(['prefix' => 'v1'], function() {
+    Route::get('customer', [CustomerController::class, 'index']);
+    Route::post('customer', [CustomerController::class, 'store']);
+    Route::get('customer/{id}', [CustomerController::class, 'show']);
+    Route::put('customer/{id}', [CustomerController::class, 'update']);
+    Route::delete('customer/{id}', [CustomerController::class, 'destroy']);
+});
 

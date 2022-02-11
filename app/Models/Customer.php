@@ -33,4 +33,14 @@ class Customer extends Model
         'phone' => 'string',
         'address' => 'json'
     ];
+
+    /**
+     * @param mixed $value
+     * @return void
+     */
+    public function setPhoneAttribute($value): void
+    {
+        $this->attributes['phone'] = preg_replace('/\D/', '', $value);
+    }
+
 }
