@@ -65,7 +65,7 @@ class CustomerController extends Controller
             'success' => true,
             'message' => 'Customers stored with success',
             'data' => $collection
-        ], 200);
+        ], 201);
     }
 
     /**
