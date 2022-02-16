@@ -22,10 +22,9 @@ return [
      * Json response's body labels.
      */
     'keys'      => [
-        'status'     => 'STATUS',
-        'message'    => 'MESSAGE',
-        'data'       => 'DATA',
-        'data_count' => 'DATA_COUNT',
+        'status'     => 'status',
+        'message'    => 'message',
+        'data'       => 'data'
     ],
 
     /*

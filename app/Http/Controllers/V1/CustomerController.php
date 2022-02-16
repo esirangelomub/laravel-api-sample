@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
+use Storage;
 use function request;
 use function response;
 
@@ -18,7 +19,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $collection = Customer::orderBy('name')->get([
+        $collection = Customer::orderBy('created_at', 'desc')->get([
             'id',
             'name',
             'email',
@@ -61,6 +62,8 @@ class CustomerController extends Controller
         }
 
         $collection = Customer::create($data);
+
+        $this->_recreateCustomersJson();
 
         return response()->json([
             'success' => true,
@@ -128,6 +131,8 @@ class CustomerController extends Controller
             'address'
         ]);
 
+        $this->_recreateCustomersJson();
+
         return response()->json([
             'success' => true,
             'message' => 'Customers updated with success',
@@ -144,10 +149,26 @@ class CustomerController extends Controller
     public function destroy($id)
     {
         $deleted = Customer::destroy($id);
+
+        $this->_recreateCustomersJson();
+
         return response()->json([
             'success' => true,
             'message' => 'Customers deleted with success',
             'deleted' => $deleted
         ], 200);
+    }
+
+    private function _recreateCustomersJson()
+    {
+        $path = 'customers.json';
+        $collection = Customer::orderBy('created_at', 'desc')->get([
+            'id',
+            'name',
+            'email',
+            'phone',
+            'address'
+        ]);
+        Storage::disk('local')->put($path, $collection);
     }
 }
