@@ -19,6 +19,7 @@ class CustomerController extends Controller
     public function index()
     {
         $collection = Customer::orderBy('name')->get([
+            'id',
             'name',
             'email',
             'phone',
@@ -77,6 +78,7 @@ class CustomerController extends Controller
     public function show($id)
     {
         $collection = Customer::find($id, [
+            'id',
             'name',
             'email',
             'phone',
